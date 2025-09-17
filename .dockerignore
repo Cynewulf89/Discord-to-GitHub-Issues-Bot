@@ -1,0 +1,41 @@
+# Node modules or virtual environments
+node_modules
+venv
+.venv
+__pycache__/
+
+# Env files
+.env
+.env.*
+
+# Git
+.git
+.gitignore
+
+# Docker files not needed in container
+.dockerignore
+docker-compose.yml
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Tests and dev data
+tests/
+*.test.*
+coverage/
+*.spec.*
+
+# Misc
+*.swp
+*.tmp
+*.bak
+.toml
+.lock
+
+# IDEs
+.vscode/
+.idea/

@@ -1,0 +1,46 @@
+# Env files
+.env
+.env.*
+
+# Node
+node_modules/
+npm-debug.log*
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+venv/
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Logs
+*.log
+
+# Local databases
+*.sqlite3
+*.db
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDEs
+.vscode/
+.idea/
+
+# Docker build artifacts
+*.tar
+*.img
+*.bak
+*.tmp
+
+# Coverage / test
+coverage/
+htmlcov/
+*.cover
+*.py,cover
+
+# Git
+*.orig
