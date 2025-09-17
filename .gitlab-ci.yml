@@ -1,0 +1,69 @@
+# Pipeline SIMPLE - Merge Dev vers main puis GitHub
+# EXACTEMENT ce que tu veux : Dev → main (GitLab) → main (GitHub)
+
+# Configuration pour permettre les pushes
+variables:
+  GIT_STRATEGY: clone
+  
+# Permissions étendues pour le job token  
+workflow:
+  rules:
+    - if: $CI_COMMIT_BRANCH == "Dev"
+
+stages:
+  - merge
+  - sync
+
+# ÉTAPE 1: Merger Dev dans main EXISTANTE sur GitLab
+merge_dev_to_main:
+  stage: merge
+  image: alpine:latest
+  before_script:
+    - apk add --no-cache git
+    - git config --global user.name "GitLab CI Bot"
+    - git config --global user.email "ci@gitlab.local"
+  script:
+    # Cloner le repo complet avec le token de groupe
+    - git clone http://gitlab-ci-token:${GITLAB_TOKEN}@100.83.168.57/bot-discord/discord-github.git /tmp/repo
+    - cd /tmp/repo
+    # Configurer l'origine avec le token de groupe
+    - git remote set-url origin http://gitlab-ci-token:${GITLAB_TOKEN}@100.83.168.57/bot-discord/discord-github.git
+    # Aller sur main EXISTANTE
+    - git checkout main
+    # ÉCRASER main avec Dev (pas de merge, juste remplacer)
+    - git reset --hard origin/Dev
+    # Supprimer .gitlab-ci.yml avant le push sur main
+    - rm -f .gitlab-ci.yml
+    - git add -A
+    - git commit -m "remove .gitlab-ci.yml from main" || echo "nothing to commit"
+    # Push avec origin configuré
+    - git push origin main --force
+    - echo "✅ main remplacé par Dev !"
+  only:
+    - Dev
+  when: on_success
+
+# ÉTAPE 2: Synchroniser main vers GitHub main
+sync_main_to_github_main:
+  stage: sync
+  image: alpine:latest
+  needs: ["merge_dev_to_main"]
+  before_script:
+    - apk add --no-cache git
+    - git config --global user.name "GitLab CI Bot"
+    - git config --global user.email "ci@gitlab.local"
+  script:
+    # Récupérer main mise à jour avec le token de groupe
+    - git clone --branch=main http://gitlab-ci-token:${GITLAB_TOKEN}@100.83.168.57/bot-discord/discord-github.git /tmp/repo
+    - cd /tmp/repo
+    # Ajouter GitHub et pousser vers main
+    - git remote add github https://${GITHUB_TOKEN}@github.com/Cynewulf89/Discord-to-GitHub-Issues-Bot.git
+    # Supprimer .gitlab-ci.yml avant le push sur GitHub main
+    - rm -f .gitlab-ci.yml
+    - git add -A
+    - git commit -m "remove .gitlab-ci.yml from github" || echo "nothing to commit"
+    - git push github main:main --force
+    - echo "✅ main synchronisé vers GitHub main !"
+  only:
+    - Dev
+  when: on_success
