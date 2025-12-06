@@ -1,7 +1,7 @@
 services:
   discord-bot:
     build: .
-    container_name: BOT_DISCORD_GITHUB
+    container_name: BOT_DISCORD_GITHUB_nevoa
     restart: unless-stopped
     env_file:
       - .env
