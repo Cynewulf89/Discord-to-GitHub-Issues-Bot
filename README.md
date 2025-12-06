@@ -17,7 +17,6 @@ STAFF_ROLE=
 
 ### Exemple de configuration
 
-```
 DISCORD_TOKEN=dfdffdfdfdfdfdg
 GITHUB_TOKEN=github_pat_dfgdfgdfgfdg
 GITHUB_OWNER=user72
