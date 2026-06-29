@@ -47,5 +47,5 @@ htmlcov/
 
 # VS Code & environment-specific files
 .vscode/
-.python-version
+
 .venv/
