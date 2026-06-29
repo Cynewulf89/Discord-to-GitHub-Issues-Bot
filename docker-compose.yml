@@ -1,7 +1,8 @@
 services:
-  discord-bot:
+  discord-to-github:
     build: .
-    container_name: BOT_DISCORD_GITHUB
+    image: discord-to-github:latest
+    container_name: bot-discord-to-github
     restart: unless-stopped
     env_file:
       - .env
