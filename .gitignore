@@ -44,3 +44,8 @@ htmlcov/
 
 # Git
 *.orig
+
+# VS Code & environment-specific files
+.vscode/
+.python-version
+.venv/

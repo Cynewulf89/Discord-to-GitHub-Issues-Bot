@@ -19,4 +19,4 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/* 
 
 # Lancer l’application  
-CMD ["python", "app/bot_discord.py"]
+CMD ["python", "src/bot_discord_to_github_issues_bot/main.py"]
